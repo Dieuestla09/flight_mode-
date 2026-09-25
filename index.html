@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compare & Book Airline Tickets — Fly-Mode Flight</title>
+<meta name="description" content="Search and book flights across every major East African airline from one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="wrap topbar-row">
+      <div class="contact-strip">
+        <a href="tel:+250780544199">📞 +250 780 544 199</a>
+        <a href="https://wa.me/250780544199" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a href="mailto:dieuestlan@gmail.com">✉ dieuestlan@gmail.com</a>
+        <a href="https://instagram.com/dieuestla09" target="_blank" rel="noopener">📸 @dieuestla09</a>
+      </div>
+    </div>
+  </div>
+  <div class="mainnav">
+    <div class="wrap header-row">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 16l7-2 3-8 2 .5-2 7.5 6-1.5 1 1-5.5 3 1 5-2-.5-1.5-4-6 1.5z" fill="#F2A65A"/></svg>
+        Fly-Mode Flight
+      </a>
+      <nav class="navlinks">
+      <a href="index.html" class="navlink active">Home</a>
+      <a href="about.html" class="navlink">About Us</a>
+      <a href="service.html" class="navlink">Service</a>
+      <a href="faq.html" class="navlink">FAQ</a>
+      <a href="terms.html" class="navlink">Terms & Conditions</a>
+      <a href="privacy.html" class="navlink">Privacy Policy</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <p class="eyebrow">Kigali-based · every major East African carrier</p>
+    <h1>One search.<br>Every airline.<br><span>Your ticket.</span></h1>
+    <p class="hero-sub">Compare fares across RwandAir, Kenya Airways, Ethiopian Airlines and more — book in minutes, pay securely, fly with confidence.</p>
+
+    <div class="searchcard">
+      <div class="trip-toggle">
+        <button class="active" data-trip="round" onclick="setTrip(this,'round')">Round trip</button>
+        <button data-trip="one" onclick="setTrip(this,'one')">One way</button>
+        <button data-trip="multi" onclick="setTrip(this,'multi')">Multi-city</button>
+      </div>
+      <div class="grid-fields">
+        <div class="field"><label>From</label><input id="fromCity" value="Kigali (KGL)"></div>
+        <div class="field"><label>To</label><input id="toCity" value="Nairobi (NBO)"></div>
+        <div class="field"><label>Depart</label><input type="date" id="depDate"></div>
+        <div class="field" id="retField"><label>Return</label><input type="date" id="retDate"></div>
+        <div class="field"><label>Passengers</label>
+          <select id="pax"><option>1 adult</option><option>2 adults</option><option>3 adults</option><option>Family (2+2)</option></select>
+        </div>
+      </div>
+      <button class="btn btn-search" onclick="runSearch()">Search flights</button>
+    </div>
+  </div>
+</div>
+
+<section id="resultsSection" class="hidden">
+  <div class="wrap">
+    <h2>Flights from <span id="rFrom"></span> to <span id="rTo"></span></h2>
+    <div class="filters">
+      <select id="sortSel" onchange="renderResults()">
+        <option value="price">Sort: Cheapest first</option>
+        <option value="duration">Sort: Fastest first</option>
+      </select>
+      <select id="airlineFilter" onchange="renderResults()">
+        <option value="">All airlines</option>
+        <option>RwandAir</option><option>Kenya Airways</option><option>Ethiopian Airlines</option><option>Uganda Airlines</option>
+      </select>
+      <select id="stopsFilter" onchange="renderResults()">
+        <option value="">Any stops</option><option value="0">Nonstop only</option><option value="1">1 stop or fewer</option>
+      </select>
+    </div>
+    <div id="resultsList"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Popular flight routes</h2>
+    <p class="meta" style="margin-bottom:16px;">Our most booked crossovers out of Kigali.</p>
+    <div class="route-grid">
+      <div class="route-card">
+        <div class="route-name">Kigali → Nairobi</div>
+        <div class="meta">KGL–NBO</div>
+        <div class="route-price">From $180</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">Kigali → Addis Ababa</div>
+        <div class="meta">KGL–ADD</div>
+        <div class="route-price">From $210</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">Kigali → Kampala</div>
+        <div class="meta">KGL–EBB</div>
+        <div class="route-price">From $95</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">Kigali → Dubai</div>
+        <div class="meta">KGL–DXB</div>
+        <div class="route-price">From $460</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">Kigali → Brussels</div>
+        <div class="meta">KGL–BRU</div>
+        <div class="route-price">From $640</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">Kigali → Johannesburg</div>
+        <div class="meta">KGL–JNB</div>
+        <div class="route-price">From $390</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>How to book a flight</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div><strong>Search</strong><p class="meta">Enter your route, dates and passengers on the home page.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div><strong>Compare</strong><p class="meta">See fares side by side from every partner airline and pick the one that fits.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div><strong>Enter details</strong><p class="meta">Add passenger information and any extras — bags, seats, insurance.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div><strong>Pay securely</strong><p class="meta">Checkout with your card or mobile money.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div><strong>Fly</strong><p class="meta">Get your e-ticket instantly by email and you're ready to travel.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="emptySection">
+  <div class="wrap">
+    <h2>Why book with Fly-Mode Flight</h2>
+    <div class="perks">
+      <div class="perk"><div class="perk-ico">🌍</div><strong>Every airline, one place</strong><p class="meta">Compare real fares instead of checking each airline separately.</p></div>
+      <div class="perk"><div class="perk-ico">⚡</div><strong>Instant e-ticket</strong><p class="meta">Confirmed booking reference sent straight to your inbox.</p></div>
+      <div class="perk"><div class="perk-ico">🤝</div><strong>Local support</strong><p class="meta">Call or WhatsApp our Kigali team anytime you need help.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="modalRoot"></div>
+
+<a class="wa-float" href="https://wa.me/250780544199" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>
+      <strong class="foot-brand">Fly-Mode Flight</strong><br>
+      Owner: NDAHAYO DIEU EST LA<br>
+      Kigali, Uganda
+    </div>
+    <div class="foot-links">
+      <a href="about.html">About Us</a>
+      <a href="service.html">Service</a>
+      <a href="faq.html">FAQ</a>
+      <a href="terms.html">Terms & Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div>
+      📞 <a href="tel:+250780544199">+250 780 544 199</a><br>
+      💬 <a href="https://wa.me/250780544199" target="_blank" rel="noopener">WhatsApp: +250 780 544 199</a><br>
+      ✉ <a href="mailto:dieuestlan@gmail.com">dieuestlan@gmail.com</a><br>
+      📸 <a href="https://instagram.com/dieuestla09" target="_blank" rel="noopener">@dieuestla09</a>
+    </div>
+  </div>
+  <p class="foot-note wrap">© 2026 Fly-Mode Flight. Flight data on this site is for demonstration purposes.</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
